@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: DaemonSet
+metadata:
+  name: kubernetes-fluentd-s3
+  version: v1
+  kubernetes.io/cluster-service: "true"
+spec:
+  selector:
+    k8s-app: fluentd-logging-s3
+    version: v1
+  template:
+    metadata:
+      labels:
+        k8s-app: fluentd-logging-s3
+        version: v1
+        kubernetes.io/cluster-service: "true"
+    spec:
+      containers:
+        - image: ccpgames/kubernetes-fluentd-s3
+          name: kubernetes-fluentd-s3
+          resources:
+            limits:
+              cpu: 500m
+            requests:
+              cpu: 100m
+          volumeMounts:
+          - name: varlog
+            mountPath: /var/log
+          - name: varlibdockercontainers
+            mountPath: /var/lib/docker/containers
+            readOnly: true
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: varlog
+          hostPath:
+            path: /var/log
+        - name: varlibdockercontainers
+          hostPath:
+            path: /var/lib/docker/containers
