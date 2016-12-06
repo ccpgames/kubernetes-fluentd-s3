@@ -5,8 +5,8 @@ services:
 
 before_install:
   - docker build -t ccpgames/kubernetes-fluentd-s3 .
-  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 
 script:
   - docker tag ccpgames/kubernetes-fluentd-s3:latest ccpgames/kubernetes-fluentd-s3
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push ccpgames/kubernetes-fluentd-s3:latest
