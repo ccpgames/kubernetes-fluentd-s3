@@ -15,4 +15,4 @@ EXPOSE 24284
 
 USER fluent
 
-CMD exec fluentd -c /fluentd/etc/$FLUENTD_CONF -p /fluentd/plugins $FLUENTD_OPT --use-v1-config
+CMD exec fluentd -c /fluentd/etc/$FLUENTD_CONF -p /fluentd/plugins $FLUENTD_OPT --use-v1-config -qq
