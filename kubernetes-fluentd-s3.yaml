@@ -16,11 +16,20 @@ spec:
         image: ccpgames/kubernetes-fluentd-s3:latest
         env:
         - name: S3_LOGS_BUCKET_NAME
-          value: vk-service-cluster-dev
+          valueFrom:
+            secretKeyRef:
+              name: kubernetes-fluentd-s3-secrets
+              key: S3_LOGS_BUCKET_NAME
         - name: S3_LOGS_BUCKET_PREFIX
-          value: logs/
+          valueFrom:
+            secretKeyRef:
+              name: kubernetes-fluentd-s3-secrets
+              key: S3_LOGS_BUCKET_PREFIX
         - name: S3_LOGS_BUCKET_REGION
-          value: eu-west-1
+          valueFrom:
+            secretKeyRef:
+              name: kubernetes-fluentd-s3-secrets
+              key: S3_LOGS_BUCKET_REGION
           # --use-v1-config allows using env vars in config file
           # -qq sets fluentd log level to ERROR
         args:
