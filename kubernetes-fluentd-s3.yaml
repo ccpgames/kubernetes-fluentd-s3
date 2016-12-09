@@ -14,21 +14,22 @@ spec:
       containers:
       - name: fluentd-s3
         image: ccpgames/kubernetes-fluentd-s3:latest
+        imagePullPolicy: Always
         env:
         - name: S3_LOGS_BUCKET_NAME
           valueFrom:
-            secretKeyRef:
-              name: kubernetes-fluentd-s3-secrets
+            configMapKeyRef:
+              name: kubernetes-fluentd-s3-config
               key: S3_LOGS_BUCKET_NAME
         - name: S3_LOGS_BUCKET_PREFIX
           valueFrom:
-            secretKeyRef:
-              name: kubernetes-fluentd-s3-secrets
+            configMapKeyRef:
+              name: kubernetes-fluentd-s3-config
               key: S3_LOGS_BUCKET_PREFIX
         - name: S3_LOGS_BUCKET_REGION
           valueFrom:
-            secretKeyRef:
-              name: kubernetes-fluentd-s3-secrets
+            configMapKeyRef:
+              name: kubernetes-fluentd-s3-config
               key: S3_LOGS_BUCKET_REGION
           # --use-v1-config allows using env vars in config file
           # -qq sets fluentd log level to ERROR
@@ -43,8 +44,6 @@ spec:
         volumeMounts:
         - name: varlog
           mountPath: /var/log
-        - name: varlogfluent
-          mountPath: /var/log/fluent
         - name: varlibdockercontainers
           mountPath: /var/lib/docker/containers
           readOnly: true
@@ -56,4 +55,3 @@ spec:
       - name: varlibdockercontainers
         hostPath:
           path: /var/lib/docker/containers
-      - name: varlogfluent
