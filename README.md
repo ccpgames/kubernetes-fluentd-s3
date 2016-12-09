@@ -23,6 +23,51 @@ docker pull ccpgames/kubernetes-fluentd-s3
 
 ## Usage
 
+1. The container relies on [AWS instance launch profiles](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) so the launch profiles of the nodes and master require the following policy:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::log-bucket/logs/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::log-bucket/logs"
+            ]
+        }
+    ]
+}
+```
+
+2. The container uses a ConfigMap to configure the bucket and path where logs are stored. A sample ConfigMap is provided with the project.
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubernetes-fluentd-s3-config
+  namespace: kube-system
+data:
+  S3_LOGS_BUCKET_NAME: log-bucket
+  S3_LOGS_BUCKET_PREFIX: log-path-prefix/logs/
+  S3_LOGS_BUCKET_REGION: eu-west-1
+```
+
+Update the yaml file with your configuration and apply it with ```kubectl apply -f kubernetes-fluentd-s3.configmap.yaml```
+
+3. Create the container with ```kubectl apply -f kubernetes-fluentd-s3.yaml
 
 ### Derived from some sources:
 
