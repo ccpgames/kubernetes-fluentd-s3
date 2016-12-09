@@ -67,9 +67,9 @@ data:
 
 Update the yaml file with your configuration and apply it with ```kubectl apply -f kubernetes-fluentd-s3.configmap.yaml```
 
-3. Create the container with ```kubectl apply -f kubernetes-fluentd-s3.yaml
+3. Create the container with ```kubectl apply -f kubernetes-fluentd-s3.yaml```
 
-### Derived from some sources:
+### Derived from:
 
 + [Kubernetes fluentd-ES](https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/fluentd-elasticsearch/fluentd-es-image)
 + [Fluentd base image](https://github.com/fluent/fluentd-docker-image)
