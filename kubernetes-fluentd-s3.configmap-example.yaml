@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubernetes-fluentd-s3-config
+  namespace: kube-system
+data:
+  S3_LOGS_BUCKET_NAME: log-bucket
+  S3_LOGS_BUCKET_PREFIX: log-path-prefix/logs/
+  S3_LOGS_BUCKET_REGION: eu-west-1
